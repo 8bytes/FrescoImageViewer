@@ -1,6 +1,6 @@
-[ ![Download](https://api.bintray.com/packages/troy379/maven/FrescoImageViewer/images/download.svg) ](https://bintray.com/troy379/maven/FrescoImageViewer/_latestVersion)
-
 # FrescoImageViewer
+
+[![codebeat badge](https://codebeat.co/badges/60dbbc38-c85e-4680-b25b-6b04d859e904)](https://codebeat.co/projects/github-com-stfalcon-studio-frescoimageviewer-master) [ ![Download](https://api.bintray.com/packages/troy379/maven/FrescoImageViewer/images/download.svg) ](https://bintray.com/troy379/maven/FrescoImageViewer/_latestVersion)
 
 Simple customizable full screen image viewer for [Fresco library][frescoRepo] that includes "pinch to zoom" and "swipe to dismiss" gestures.
 Based on [PhotoDraweeView][photoDraweeViewRepo] by [ongakuer][coauthor].
@@ -163,7 +163,7 @@ or **Maven**:
 ## License
 
 ```
-Copyright (C) 2016 stfalcon.com
+Copyright (C) 2017 stfalcon.com
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
