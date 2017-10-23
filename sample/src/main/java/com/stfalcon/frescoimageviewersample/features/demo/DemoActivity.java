@@ -3,8 +3,9 @@ package com.stfalcon.frescoimageviewersample.features.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 import com.stfalcon.frescoimageviewersample.R;
 import com.stfalcon.frescoimageviewersample.common.data.Demo;
 
@@ -40,18 +41,18 @@ public abstract class DemoActivity extends AppCompatActivity {
         descriptions = Demo.getDescriptions();
 
         for (int i = 0; i < ids.length; i++) {
-            SimpleDraweeView drawee = (SimpleDraweeView) findViewById(ids[i]);
+            ImageView drawee = findViewById(ids[i]);
             initDrawee(drawee, i);
         }
     }
 
-    private void initDrawee(SimpleDraweeView drawee, final int startPosition) {
+    private void initDrawee(ImageView drawee, final int startPosition) {
+        Glide.with(this).load(posters[startPosition]).into(drawee);
         drawee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPicker(startPosition);
             }
         });
-        drawee.setImageURI(posters[startPosition]);
     }
 }

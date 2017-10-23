@@ -27,9 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
-
 /*
  * Created by Alexander Krol (troy379) on 29.08.16.
  */
@@ -49,9 +46,6 @@ class ImageViewerView extends RelativeLayout
     private View overlayView;
 
     private SwipeDirectionDetector.Direction direction;
-
-    private ImageRequestBuilder customImageRequestBuilder;
-    private GenericDraweeHierarchyBuilder customDraweeHierarchyBuilder;
 
     private boolean wasScaled;
     private OnDismissListener onDismissListener;
@@ -77,17 +71,9 @@ class ImageViewerView extends RelativeLayout
 
     public void setUrls(ImageViewer.DataSet<?> dataSet, int startPosition) {
         adapter = new ImageViewerAdapter(
-                getContext(), dataSet, customImageRequestBuilder, customDraweeHierarchyBuilder, isZoomingAllowed);
+                getContext(), dataSet, isZoomingAllowed);
         pager.setAdapter(adapter);
         setStartPosition(startPosition);
-    }
-
-    public void setCustomImageRequestBuilder(ImageRequestBuilder customImageRequestBuilder) {
-        this.customImageRequestBuilder = customImageRequestBuilder;
-    }
-
-    public void setCustomDraweeHierarchyBuilder(GenericDraweeHierarchyBuilder customDraweeHierarchyBuilder) {
-        this.customDraweeHierarchyBuilder = customDraweeHierarchyBuilder;
     }
 
     @Override

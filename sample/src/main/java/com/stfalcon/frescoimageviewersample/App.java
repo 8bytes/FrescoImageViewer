@@ -2,7 +2,6 @@ package com.stfalcon.frescoimageviewersample;
 
 import android.app.Application;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 /*
  * Created by Alexander Krol (troy379) on 29.08.16.
@@ -23,6 +22,6 @@ public class App extends Application {
 //                .build();
 //        Fresco.initialize(this, config);
 
-        Fresco.initialize(this);
+//        Fresco.initialize(this);
     }
 }

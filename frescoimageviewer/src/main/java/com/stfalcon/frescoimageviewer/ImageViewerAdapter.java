@@ -1,25 +1,16 @@
 package com.stfalcon.frescoimageviewer;
 
 import android.content.Context;
-import android.graphics.drawable.Animatable;
-import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
-import com.facebook.drawee.controller.BaseControllerListener;
-import com.facebook.drawee.drawable.ScalingUtils;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.imagepipeline.image.ImageInfo;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.bumptech.glide.Glide;
 import com.stfalcon.frescoimageviewer.adapter.RecyclingPagerAdapter;
 import com.stfalcon.frescoimageviewer.adapter.ViewHolder;
-import com.stfalcon.frescoimageviewer.drawee.ZoomableDraweeView;
+
 
 import java.util.HashSet;
-
-import me.relex.photodraweeview.OnScaleChangeListener;
 
 /*
  * Created by troy379 on 07.12.16.
@@ -30,25 +21,18 @@ class ImageViewerAdapter
     private Context context;
     private ImageViewer.DataSet<?> dataSet;
     private HashSet<ImageViewHolder> holders;
-    private ImageRequestBuilder imageRequestBuilder;
-    private GenericDraweeHierarchyBuilder hierarchyBuilder;
     private boolean isZoomingAllowed;
 
-    ImageViewerAdapter(Context context, ImageViewer.DataSet<?> dataSet,
-                       ImageRequestBuilder imageRequestBuilder,
-                       GenericDraweeHierarchyBuilder hierarchyBuilder,
-                       boolean isZoomingAllowed) {
+    ImageViewerAdapter(Context context, ImageViewer.DataSet<?> dataSet, boolean isZoomingAllowed) {
         this.context = context;
         this.dataSet = dataSet;
         this.holders = new HashSet<>();
-        this.imageRequestBuilder = imageRequestBuilder;
-        this.hierarchyBuilder = hierarchyBuilder;
         this.isZoomingAllowed = isZoomingAllowed;
     }
 
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ZoomableDraweeView drawee = new ZoomableDraweeView(context);
+        ImageView drawee = new ImageView(context);
         drawee.setEnabled(isZoomingAllowed);
 
         ImageViewHolder holder = new ImageViewHolder(drawee);
@@ -59,7 +43,7 @@ class ImageViewerAdapter
 
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
-        holder.bind(position);
+        holder.bind(context, position);
     }
 
     @Override
@@ -80,7 +64,7 @@ class ImageViewerAdapter
     void resetScale(int index) {
         for (ImageViewHolder holder : holders) {
             if (holder.position == index) {
-                holder.resetScale();
+//                holder.resetScale();
                 break;
             }
         }
@@ -90,68 +74,57 @@ class ImageViewerAdapter
         return dataSet.format(index);
     }
 
-    private BaseControllerListener<ImageInfo>
-    getDraweeControllerListener(final ZoomableDraweeView drawee) {
-        return new BaseControllerListener<ImageInfo>() {
-            @Override
-            public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
-                super.onFinalImageSet(id, imageInfo, animatable);
-                if (imageInfo == null) {
-                    return;
-                }
-                drawee.update(imageInfo.getWidth(), imageInfo.getHeight());
-            }
-        };
-    }
 
-    class ImageViewHolder extends ViewHolder implements OnScaleChangeListener {
+
+    class ImageViewHolder extends ViewHolder {
 
         private int position = -1;
-        private ZoomableDraweeView drawee;
+        private ImageView imageView;
         private boolean isScaled;
 
         ImageViewHolder(View itemView) {
             super(itemView);
-            drawee = (ZoomableDraweeView) itemView;
+            imageView = (ImageView) itemView;
         }
 
-        void bind(int position) {
+        void bind(Context context, int position) {
             this.position = position;
 
-            tryToSetHierarchy();
-            setController(dataSet.format(position));
+            Glide.with(context).load(dataSet.format(position)).into(imageView);
 
-            drawee.setOnScaleChangeListener(this);
+//
+//            tryToSetHierarchy();
+//            setController(dataSet.format(position));
+//
+//            drawee.setOnScaleChangeListener(this);
+
         }
 
-        @Override
-        public void onScaleChange(float scaleFactor, float focusX, float focusY) {
-            isScaled = drawee.getScale() > 1.0f;
-        }
 
-        void resetScale() {
-            drawee.setScale(1.0f, true);
-        }
-
-        private void tryToSetHierarchy() {
-            if (hierarchyBuilder != null) {
-                hierarchyBuilder.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
-                drawee.setHierarchy(hierarchyBuilder.build());
-            }
-        }
-
-        private void setController(String url) {
-            PipelineDraweeControllerBuilder controllerBuilder = Fresco.newDraweeControllerBuilder();
-            controllerBuilder.setUri(url);
-            controllerBuilder.setAutoPlayAnimations(true);
-            controllerBuilder.setOldController(drawee.getController());
-            controllerBuilder.setControllerListener(getDraweeControllerListener(drawee));
-            if (imageRequestBuilder != null) {
-                imageRequestBuilder.setSource(Uri.parse(url));
-                controllerBuilder.setImageRequest(imageRequestBuilder.build());
-            }
-            drawee.setController(controllerBuilder.build());
-        }
+//
+//        void resetScale() {
+//            drawee.setScale(1.0f, true);
+//        }
+//
+//        private void tryToSetHierarchy() {
+//            if (hierarchyBuilder != null) {
+//                hierarchyBuilder.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
+//                drawee.setHierarchy(hierarchyBuilder.build());
+//            }
+//        }
+//
+//        private void setController(String url) {
+//            PipelineDraweeControllerBuilder controllerBuilder = Fresco.newDraweeControllerBuilder();
+//            controllerBuilder.setUri(url);
+//            controllerBuilder.setAutoPlayAnimations(true);
+//            controllerBuilder.setOldController(drawee.getController());
+//            controllerBuilder.setControllerListener(getDraweeControllerListener(drawee));
+//            if (imageRequestBuilder != null) {
+//                imageRequestBuilder.setSource(Uri.parse(url));
+//                controllerBuilder.setImageRequest(imageRequestBuilder.build());
+//            }
+//            drawee.setController(controllerBuilder.build());
+//        }
 
     }
 }

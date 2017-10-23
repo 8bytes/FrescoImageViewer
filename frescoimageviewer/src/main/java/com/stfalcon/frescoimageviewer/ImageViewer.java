@@ -19,7 +19,6 @@ package com.stfalcon.frescoimageviewer;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
@@ -30,8 +29,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,8 +67,6 @@ public class ImageViewer implements OnDismissListener, DialogInterface.OnKeyList
 
     private void createDialog() {
         viewer = new ImageViewerView(builder.context);
-        viewer.setCustomImageRequestBuilder(builder.customImageRequestBuilder);
-        viewer.setCustomDraweeHierarchyBuilder(builder.customHierarchyBuilder);
         viewer.allowZooming(builder.isZoomingAllowed);
         viewer.allowSwipeToDismiss(builder.isSwipeToDismissAllowed);
         viewer.setOnDismissListener(this);
@@ -126,13 +121,6 @@ public class ImageViewer implements OnDismissListener, DialogInterface.OnKeyList
             }
         }
         return true;
-    }
-
-    /**
-     * Creates new {@code ImageRequestBuilder}.
-     */
-    public static ImageRequestBuilder createImageRequestBuilder() {
-        return ImageRequestBuilder.newBuilderWithSource(Uri.parse(""));
     }
 
     /**
@@ -206,8 +194,6 @@ public class ImageViewer implements OnDismissListener, DialogInterface.OnKeyList
         private View overlayView;
         private int imageMarginPixels;
         private int[] containerPaddingPixels = new int[4];
-        private ImageRequestBuilder customImageRequestBuilder;
-        private GenericDraweeHierarchyBuilder customHierarchyBuilder;
         private boolean shouldStatusBarHide = true;
         private boolean isZoomingAllowed = true;
         private boolean isSwipeToDismissAllowed = true;
@@ -393,28 +379,7 @@ public class ImageViewer implements OnDismissListener, DialogInterface.OnKeyList
             return this;
         }
 
-        /**
-         * Set @{@code ImageRequestBuilder} for drawees. Use it for post-processing, custom resize options etc.
-         * Use {@link ImageViewer#createImageRequestBuilder()} to create its new instance.
-         *
-         * @return This Builder object to allow for chaining of calls to set methods
-         */
-        public Builder setCustomImageRequestBuilder(ImageRequestBuilder customImageRequestBuilder) {
-            this.customImageRequestBuilder = customImageRequestBuilder;
-            return this;
-        }
 
-        /**
-         * Set {@link GenericDraweeHierarchyBuilder} for drawees inside viewer.
-         * Use it for drawee customizing (e.g. failure image, placeholder, progressbar etc.)
-         * N.B.! Due to zoom logic there is limitation of scale type which always equals FIT_CENTER. Other values will be ignored
-         *
-         * @return This Builder object to allow for chaining of calls to set methods
-         */
-        public Builder setCustomDraweeHierarchyBuilder(GenericDraweeHierarchyBuilder customHierarchyBuilder) {
-            this.customHierarchyBuilder = customHierarchyBuilder;
-            return this;
-        }
 
         /**
          * Creates a {@link ImageViewer} with the arguments supplied to this builder. It does not

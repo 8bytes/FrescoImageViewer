@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.drawee.generic.RoundingParams;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 import com.stfalcon.frescoimageviewersample.R;
 import com.stfalcon.frescoimageviewersample.common.views.ImageOverlayView;
@@ -16,7 +14,6 @@ import com.stfalcon.frescoimageviewersample.utils.StylingOptions;
 
 import java.util.Random;
 
-import jp.wasabeef.fresco.processors.GrayscalePostprocessor;
 
 /*
  * Created by troy379 on 06.03.17.
@@ -64,7 +61,7 @@ public class StyledViewActivity extends DemoActivity {
         }
 
         if (options.get(StylingOptions.Property.IMAGES_ROUNDING)) {
-            builder.setCustomDraweeHierarchyBuilder(getRoundedHierarchyBuilder());
+//            builder.setCustomDraweeHierarchyBuilder(getRoundedHierarchyBuilder());
         }
 
         builder.allowSwipeToDismiss(options.get(StylingOptions.Property.SWIPE_TO_DISMISS));
@@ -82,9 +79,9 @@ public class StyledViewActivity extends DemoActivity {
         }
 
         if (options.get(StylingOptions.Property.POST_PROCESSING)) {
-            builder.setCustomImageRequestBuilder(
-                    ImageViewer.createImageRequestBuilder()
-                            .setPostprocessor(new GrayscalePostprocessor()));
+//            builder.setCustomImageRequestBuilder(
+//                    ImageViewer.createImageRequestBuilder()
+//                            .setPostprocessor(new GrayscalePostprocessor()));
         }
 
         builder.show();
@@ -109,14 +106,6 @@ public class StyledViewActivity extends DemoActivity {
                         R.string.message_on_dismiss, false);
             }
         };
-    }
-
-    private GenericDraweeHierarchyBuilder getRoundedHierarchyBuilder() {
-        RoundingParams roundingParams = new RoundingParams();
-        roundingParams.setRoundAsCircle(true);
-
-        return GenericDraweeHierarchyBuilder.newInstance(getResources())
-                .setRoundingParams(roundingParams);
     }
 
     private int getRandomColor() {
