@@ -24,6 +24,8 @@ public class SimpleUsageActivity extends DemoActivity {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions = requestOptions.placeholder(R.drawable.play_store_icon);
         requestOptions = requestOptions.skipMemoryCache(true);
+        requestOptions = requestOptions.centerCrop();
+
         new ImageViewer.Builder<>(this, posters)
                 .setRequestOptions(requestOptions)
                 .setStartPosition(startPosition)

@@ -36,7 +36,7 @@ class ImageViewerAdapter
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ImageView drawee = new ImageView(context);
         drawee.setEnabled(isZoomingAllowed);
-
+        drawee.setScaleType(ImageView.ScaleType.FIT_XY);
         ImageViewHolder holder = new ImageViewHolder(drawee);
         holders.add(holder);
 
