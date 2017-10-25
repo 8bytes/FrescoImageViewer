@@ -27,6 +27,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.request.RequestOptions;
+
 /*
  * Created by Alexander Krol (troy379) on 29.08.16.
  */
@@ -40,7 +42,7 @@ class ImageViewerView extends RelativeLayout
     private ScaleGestureDetector scaleDetector;
     private ViewPager.OnPageChangeListener pageChangeListener;
     private GestureDetectorCompat gestureDetector;
-
+    private RequestOptions requestOptions;
     private ViewGroup dismissContainer;
     private SwipeToDismissListener swipeDismissListener;
     private View overlayView;
@@ -71,7 +73,7 @@ class ImageViewerView extends RelativeLayout
 
     public void setUrls(ImageViewer.DataSet<?> dataSet, int startPosition) {
         adapter = new ImageViewerAdapter(
-                getContext(), dataSet, isZoomingAllowed);
+                getContext(), dataSet, requestOptions, isZoomingAllowed);
         pager.setAdapter(adapter);
         setStartPosition(startPosition);
     }
@@ -251,4 +253,7 @@ class ImageViewerView extends RelativeLayout
                 && overlayView.dispatchTouchEvent(event);
     }
 
+    public void setRequestOptions(RequestOptions requestOptions) {
+        this.requestOptions = requestOptions;
+    }
 }

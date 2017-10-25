@@ -30,6 +30,8 @@ import android.view.KeyEvent;
 import android.view.View;
 
 
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,6 +69,7 @@ public class ImageViewer implements OnDismissListener, DialogInterface.OnKeyList
 
     private void createDialog() {
         viewer = new ImageViewerView(builder.context);
+        viewer.setRequestOptions(builder.requestOptions);
         viewer.allowZooming(builder.isZoomingAllowed);
         viewer.allowSwipeToDismiss(builder.isSwipeToDismissAllowed);
         viewer.setOnDismissListener(this);
@@ -187,6 +190,7 @@ public class ImageViewer implements OnDismissListener, DialogInterface.OnKeyList
 
         private Context context;
         private DataSet<T> dataSet;
+        private RequestOptions requestOptions = new RequestOptions();
         private @ColorInt int backgroundColor = Color.BLACK;
         private int startPosition;
         private OnImageChangeListener imageChangeListener;
@@ -218,6 +222,11 @@ public class ImageViewer implements OnDismissListener, DialogInterface.OnKeyList
          */
         public Builder setFormatter(Formatter<T> formatter) {
             this.dataSet.formatter = formatter;
+            return this;
+        }
+
+        public Builder setRequestOptions(RequestOptions requestOptions) {
+            this.requestOptions = requestOptions;
             return this;
         }
 

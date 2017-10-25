@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.stfalcon.frescoimageviewer.adapter.RecyclingPagerAdapter;
 import com.stfalcon.frescoimageviewer.adapter.ViewHolder;
 
@@ -22,12 +23,13 @@ class ImageViewerAdapter
     private ImageViewer.DataSet<?> dataSet;
     private HashSet<ImageViewHolder> holders;
     private boolean isZoomingAllowed;
-
-    ImageViewerAdapter(Context context, ImageViewer.DataSet<?> dataSet, boolean isZoomingAllowed) {
+    private RequestOptions requestOptions;
+    ImageViewerAdapter(Context context, ImageViewer.DataSet<?> dataSet, RequestOptions requestOptions, boolean isZoomingAllowed) {
         this.context = context;
         this.dataSet = dataSet;
         this.holders = new HashSet<>();
         this.isZoomingAllowed = isZoomingAllowed;
+        this.requestOptions = requestOptions;
     }
 
     @Override
@@ -43,7 +45,7 @@ class ImageViewerAdapter
 
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
-        holder.bind(context, position);
+        holder.bind(context, requestOptions, position);
     }
 
     @Override
@@ -87,10 +89,10 @@ class ImageViewerAdapter
             imageView = (ImageView) itemView;
         }
 
-        void bind(Context context, int position) {
+        void bind(Context context, RequestOptions requestOptions, int position) {
             this.position = position;
 
-            Glide.with(context).load(dataSet.format(position)).into(imageView);
+            Glide.with(context).setDefaultRequestOptions(requestOptions).load(dataSet.format(position)).into(imageView);
 
 //
 //            tryToSetHierarchy();
